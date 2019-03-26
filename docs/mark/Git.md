@@ -34,7 +34,7 @@ create mode 100644 readme.txt
 ```
 > Git 提交文件需要 add ，commit 一共两步，因为 commit 可以一次提交很多文件，所以你可以多次 add 不同的文件。
 
-# 文件操作
+# 修改文件
 我们用编辑器继续修改 `readme.txt` 文件，把 `sakura is nice.` 改成 `sakura is beautiful.` , 使用 `git status` 命令查看仓库当前状态。输出告诉我们 `readme.txt` 被修改了，但没有提交修改。
 ```
 $ git status
@@ -65,4 +65,48 @@ $ git status
 On branch master
 nothing to commit, working tree clean
 ```
+
+# 版本回退
+在 Git 中，`HEAD` 表示当前版本，上一个版本用 `HEAD^` 表示，上上一个版本是 `HEAD^^` ，往上 100 个版本可以用 `HEAD~100` 。使用 `git reset` 命令回到上一个版本：
+
+```
+$ git reset --hard HEAD^
+HEAD is now at c2548e2 create readme.txt file
+```
+使用 ` git reset --hard $commitId` 到指定版本号
+
+```
+$ git reset --hard 1094a
+HEAD is now at 83b0afe append GPL
+```
+使用  `git reflog` 查看你的每一次命令：
+
+```
+$ git reflog
+071f7f3 (HEAD -> master) HEAD@{0}: reset: moving to 071f
+c2548e2 HEAD@{1}: reset: moving to HEAD^
+071f7f3 (HEAD -> master) HEAD@{2}: commit: modified
+c2548e2 HEAD@{3}: commit (initial): create readme.txt file
+```
+# 工作区 & 暂存区
+工作区（Working Directory） 是指电脑上的工作文件夹， 如 `sakura`，工作区有一个隐藏目录 `.git` ，这个不算工作区，是 Git 的版本库，里面存了很多东西，最重要的是叫 stage （或 index）的暂存区，和 Git 为我们自动创建的第一个分支 `master` ，以及指向 `master` 的 `HEAD` 指针。
+
+<div align="center"> <img src="pics/trees.png" width="450" > </div><br>
+
+本地仓库由 Git 维护的三棵 “树” 组成。第一个是 `工作目录`，持有实际文件；第二个是`暂存区（index）`，它像个缓存区域，临时保存你的修改；最后是 `HEAD` ，它指向最后一次保存的结果。
+
+# 推送
+现在改动已经在本地仓库的 `HEAD` 中了。使用 `git push origin master` 命令以将这些改动提交到远端仓库,可以把 `master` 换成你想要推送的任何分支。也可以使用 
+`git remote add origin <server>` 命令将改动推送到所添加的服务器上去。
+
+# 分支管理
+
+
+
+
+
+
+
+
+
 
