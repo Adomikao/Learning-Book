@@ -147,7 +147,7 @@ Deleted branch dev (was 071f7f3).
 - 忽略操作系统自动生成的文件，比如缩略图等。
 
 # Git 常用命令
-<div align="center"> <img src="pics/git-command.jpg" width="700" > </div><br>
+<div align="center"> <img src="pics/git-command.jpg"> </div><br>
 
 详情见：http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf
 
