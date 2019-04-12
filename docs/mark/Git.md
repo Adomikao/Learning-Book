@@ -105,7 +105,7 @@ c2548e2 HEAD@{3}: commit (initial): create readme.txt file
 工作区（Working Directory） 是指电脑上的工作文件夹， 如 `sakura`，工作区有一个隐藏目录 `.git` ，这个不算工作区，是 Git 的版本库，里面存了很多东西，最重要的是叫 stage （或 index）的暂存区，和 Git 为我们自动创建的第一个分支 `master` ，以及指向 `master` 的 `HEAD` 指针。
 
 <!-- <div align="center"> <img src="pics/trees.png" width="550" > </div><br> -->
-<div align="center"> <img src="https://adomikao.gitee.io/media/img/learning-book/trees.png" width="550" > </div><br>
+<div align="center"> <img src="https://adomikao.gitee.io/media/learning-book/trees.png" width="550" > </div><br>
 
 本地仓库由 Git 维护的三棵 “树” 组成。第一个是 `工作目录`，持有实际文件；第二个是`暂存区（index）`，它像个缓存区域，临时保存你的修改；最后是 `HEAD` ，它指向最后一次保存的结果。
 
@@ -116,7 +116,7 @@ c2548e2 HEAD@{3}: commit (initial): create readme.txt file
 # 7. 分支管理
 在创建仓库的时候，`master` 是默认分支，在其他分支上进行开发，完成后再将它合并到主分支，分支是用来将特性开发绝缘开来的。
 <!-- <div align="center"> <img src="pics/branches.png" width="550" > </div><br> -->
-<div align="center"> <img src="https://adomikao.gitee.io/media/img/learning-book/branches.png" width="550" > </div><br>
+<div align="center"> <img src="https://adomikao.gitee.io/media/learning-book/branches.png" width="550" > </div><br>
 
 我们创建 `feature_x` 分支，然后切换到 `feature_x` 分支
 
@@ -163,7 +163,7 @@ Deleted branch dev (was 071f7f3).
 
 # 9. Git 常用命令
 <!-- <div align="center"> <img src="pics/git-command.jpg"> </div><br> -->
-<div align="center"> <img src="https://adomikao.gitee.io/media/img/learning-book/git-command.jpg"> </div><br>
+<div align="center"> <img src="https://adomikao.gitee.io/media/learning-book/git-command.jpg"> </div><br>
 
 
 详情见：http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf

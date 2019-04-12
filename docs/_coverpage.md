@@ -1,4 +1,4 @@
-<img width="150px" src="https://adomikao.gitee.io/media/img/learning-book/LogoMakr_6ln8tC.png">
+<img width="150px" src="https://adomikao.gitee.io/media/learning-book/LogoMakr_6ln8tC.png">
 
 # LEARNING-BOOK
 
