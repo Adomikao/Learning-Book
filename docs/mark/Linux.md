@@ -56,5 +56,19 @@ mv  /home/ffxhd/a.txt   /home/ffxhd/test/
 mv  /home/ffxhd/a.txt   /home/ffxhd/test/c.txt
 ```
 
+**4. rm 命令**
+
+该命令用于删除文件或目录，remove 之意，它的常用参数如下：
+```
+-f ：就是 force 的意思，忽略不存在的文件，不会出现警告消息，即使原档案属性设为唯读，亦直接删除，无需逐一确认。 
+-i ：删除前逐一询问确认  
+-r ：递归删除，最常用于目录删除，它是一个非常危险的参数
+```
+例如：
+```
+rm -i test.txt # 删除文件file，在删除之前会询问是否进行该操作  
+rm -fr dir # 强制删除目录dir中的所有文件
+```
+
 
 
