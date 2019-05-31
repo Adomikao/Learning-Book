@@ -7,6 +7,10 @@
     display: none;
 }
 
+.markdown-section {
+    max-width: 900px;
+}
+
 .markdown-section h1 {
     margin: 3rem 0 2rem 0;
 }
