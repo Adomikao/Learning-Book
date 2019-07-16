@@ -32,5 +32,48 @@
 - list.reverse()：              反向列表中元素
 - list.sort([func])：           对原列表进行排序，默认升序
 
+**函数**
+- len(list): 列表元素个数
+- max(list): 返回列表元素最大值, 最小值用min()
+- list(tup): 将元组转换为列表
+
+**示例**
+
+```python
+#!/usr/bin/python
+
+list0 = ['physics', 'chemistry', 1997, 2000]
+list0.append('Google')   ## 使用 append() 添加元素
+print list0
+del list0[2]    ##使用 del 语句来删除列表的元素
+print "the list length : ", len(list0);
+
+aTuple = (123, 'xyz', 'zara', 'abc');
+aList = list(aTuple)
+```
+
 ### 3.2 元组
-元组跟列表差不多，也是存一组数，只不是它一旦创建，便不能再修改，所以又叫只读列表                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+Python 的元组与列表类似，不同之处在于元组的元素不能修改。元组使用小括号，列表使用方括号。
+
+**元组的方法**
+-  count(obj) : 统计某个元素出现的次数
+-  index(obj) : 查询某个元素的下标  
+
+**示例**
+
+```py
+tup1 = ('physics', 'chemistry', 1997, 2000)
+tup2 = (50,) ## 元组中只包含一个元素时，需要在元素后面添加逗号
+
+tup3 = (12, 34.56)
+tup4 = ('abc', 'xyz')
+ 
+# 以下修改元组元素操作是非法的。
+# tup3[0] = 100
+# 创建一个新的元组
+tup5 = tup1 + tup2
+```
+
+### 3.3 字典
+字典是 Python 中唯一的映射类型，采用键值对（key-value）的形式存储数据。Python 对 key 进行哈希函数运算，根据计算的结果决定 value 的存储地址，所以字典是无序存储的，且 key 必须是可哈希的。可哈希表示 key 必须是不可变类型，如：数字、字符串、元组。
