@@ -76,4 +76,83 @@ tup5 = tup1 + tup2
 ```
 
 ### 3.3 字典
-字典是 Python 中唯一的映射类型，采用键值对（key-value）的形式存储数据。Python 对 key 进行哈希函数运算，根据计算的结果决定 value 的存储地址，所以字典是无序存储的，且 key 必须是可哈希的。可哈希表示 key 必须是不可变类型，如：数字、字符串、元组。
+字典是 Python 中唯一的映射类型，采用键值对（key-value）的形式存储数据。Python 对 key 进行哈希函数运算，根据计算的结果决定 value 的存储地址，且 key 必须是可哈希的。可哈希表示 key 必须是不可变类型，如：数字、字符串、元组。
+
+**字典的方法**
+- dict.clear() ：删除字典内所有元素
+- dict.copy() ： 返回一个字典的浅复制
+- dict.fromkeys(seq[, val]) ：创建一个新字典，以序列 seq 中元素做字典的键，val 为字典所有键对应的初始值
+- dict.get(key, default=None) ： 返回指定键的值，如果值不在字典中返回default值
+- dict.has_key(key) ： 如果键在字典dict里返回true，否则返回false
+- dict.items() ： 以列表返回可遍历的(键, 值) 元组数组
+- dict.keys() ： 以列表返回一个字典所有的键
+- dict.update(dict2) ： 把字典dict2的键/值对更新到dict里
+- dict.values() ： 以列表返回字典中的所有值
+- pop(key[,default]) ： 删除字典给定键 key 所对应的值，返回值为被删除的值。key值必须给出。 否则，返回default值。
+
+**示例**
+
+```py
+dic1={'name':'panlei','age':23,'sex':'male'}
+dic2=dict((('name','panlei'),))
+
+dict = {'Name': 'Zara', 'Age': 7, 'Class': 'First'}
+dict['Age'] = 8 # 更新
+dict['School'] = "RUNOOB" # 添加
+
+del dict['Name']  # 删除键是'Name'的条目
+dict.clear()      # 清空字典所有条目
+del dict          # 删除字典
+
+person={'name':'lizhong','age':'26','city':'BeiJing'}
+for key in person.keys():  ##遍历key
+    print(key)
+
+for value in person.values():  ##遍历value
+    print(value)
+
+for key, value in person.items():  ##遍历key-value
+    print(key, value)
+
+```
+
+### 3.4 集合
+
+集合是一个无序的，不重复的数据组合，它的主要作用如下：
+- 去重，把一个列表变成集合，就自动去重了 
+- 关系测试，测试两组数据之前的交集、差集、并集等关系
+
+**示例**
+```py
+>>>basket = {'apple', 'orange', 'apple', 'pear', 'orange', 'banana'}
+>>> print(basket)                      # 这里演示的是去重功能
+{'orange', 'banana', 'pear', 'apple'}
+>>> 'orange' in basket                 # 快速判断元素是否在集合内
+True
+>>> 'crabgrass' in basket
+False
+ 
+>>> # 下面展示两个集合间的运算.
+...
+>>> a = set('abracadabra')
+>>> b = set('alacazam')
+>>> a                                  
+{'a', 'r', 'b', 'c', 'd'}
+>>> a - b                              # 集合a中包含而集合b中不包含的元素
+{'r', 'd', 'b'}
+>>> a | b                              # 集合a或b中包含的所有元素
+{'a', 'c', 'r', 'd', 'b', 'm', 'z', 'l'}
+>>> a & b                              # 集合a和b中都包含了的元素
+{'a', 'c'}
+>>> a ^ b                              # 不同时包含于a和b的元素
+{'r', 'd', 'b', 'm', 'z', 'l'}
+```
+**集合的方法**
+- add() ： 为集合添加元素
+- clear() ： 移除集合中的所有元素
+- difference() ： 	返回多个集合的差集
+- difference_update() ： 移除集合中的元素，该元素在指定的集合也存在。
+- discard() ： 	删除集合中指定的元素
+
+
+
