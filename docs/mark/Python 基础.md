@@ -434,6 +434,260 @@ print(blist)
     [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 ```
 
+## 5. 函数
+### 5.1 语法
+
+- 函数的语法：
+
+```py
+def 函数名（[参数]）:
+函数文档字符串
+函数体
+
+def girth(width , height):
+    return 2 * (width + height)
+print(girth(3，2))
+```
+- 函数名：是必须符合Python名称规范要求的标识符，需要避免使用Python的关键字
+- 参数：称为函数的形参，调用时传递的真实数据称为实参，函数的参数可以没有，也可以是多个甚至可变个数
+- 函数体：定义函数具体的操作代码，如果需要返回值，必须使用return语句返回，唯一例外是生成器函数使用yield返回值。如果函数没有返回值，可以不使用return或return后不跟返回值或return None即可。
+- 位置参数：函数的参数在调用时传递数据时，默认是按参数的位置顺序传值，即形参的顺序与实参的顺序逐一对应，这种参数的使用模式称为位置参数。
+- 关键字参数：使用可以不按形参的顺序传递实参，系统按形参的名字确认实参传递给哪个参数。
+
+### 5.2 可变参数（收集参数）
+参数收集：函数的参数使用除了常规的位置参数和关键字参数外，还支持可变个数的函数参数，这种支持可变个数的参数方法称为参数收集，对应的参数称为收集参数。
+
+- 形参前添加一个 '*'
+
+    这种模式是在函数定义时在某个形参前面加一个星号，调用时按位置匹配不带星号的形参和实参，多余的实参都将作为一个元组的元素保存到星号对应的形参中，该星号后的形参就称为收集参数。
+
+```py
+## 函数定义：
+
+def cal(number1,number2=None,*numbers,calmethod='$'):
+
+    print('number1=',number1,',number2=',number2,',numbers=',numbers,', calmethod=',calmethod)
+
+## 函数调用执行：
+
+cal(1,'+')
+
+    number1= 1 ,number2= + ,numbers= () , calmethod= $
+
+cal(1,2,'+')
+
+    number1= 1 ,number2= 2 ,numbers= ('+',) , calmethod= $
+
+cal(1,2,3,'+')
+
+    number1= 1 ,number2= 2 ,numbers= (3, '+') , calmethod= $
+
+cal(1,2,3,4,'+')
+
+    number1= 1 ,number2= 2 ,numbers= (3, 4, '+') , calmethod= $
+
+cal(1,calmethod='+')
+
+    number1= 1 ,number2= None ,numbers= () , calmethod= +
+
+cal(1,2,calmethod='+')
+
+    number1= 1 ,number2= 2 ,numbers= () , calmethod= +
+
+cal(1,2,3,calmethod='+')
+
+    number1= 1 ,number2= 2 ,numbers= (3,) , calmethod= +
+
+cal(1,2,3,4,calmethod='+')
+
+    number1= 1 ,number2= 2 ,numbers= (3, 4) , calmethod= +
+
+```
+
+- 形参前添加两个 '*'
+
+    这种形式可以接收任意多个以关键字参数赋值的实际参数，并将其放到一个字典中。 两种模式的收集参数可以混用。
+
+```py
+def cal(calmethod='+',*topnopers,**lastnopers):
+
+    print('运算符=',calmethod,',前几个运算参数为=',topnopers,',最后几个运算参数=',lastnopers)
+
+   
+cal('+',1,2,3,4,n5=5,n6=6,n7=7)
+
+    运算符= + ,前几个运算参数为= (1, 2, 3, 4) ,最后几个运算参数= {'n5': 5, 'n6': 6, 'n7': 7}
+```
+
+### 5.3 函数的递归及嵌套
+- 递归： 在一个函数体内调用它自身，被称为函数递归。函数递归包含了一种隐式的循环，它会重复执行某段代码，但这种重复执行无须循环控制。
+
+> 例如有如下数学题。己知有一个数列：f(0) = 1，f(1) = 4，f(n + 2) = 2*f(n+ 1) +f(n)，其中 n 是大于 0 的整数，求 f(10) 的值。这道题可以使用递归来求得。下面程序将定义一个 fn() 函数，用于计算 f(10) 的值。
+
+```py
+def fn(n) :
+    if n == 0 :
+        return 1
+    elif n == 1 :
+        return 4
+    else :
+        # 函数中调用它自身，就是函数递归
+        return 2 * fn(n - 1) + fn(n - 2)
+# 输出fn(10)的结果
+print("fn(10)的结果是:", fn(10))
+```
+
+- 嵌套： Python 支持函数内再定义函数，这种方式称为函数嵌套。函数内的函数称为局部函数，其上层函数称为封闭函数：
+    - 在默认情况下，局部函数对外部是隐藏的，局部函数只能在其封闭函数内有效；
+    - 封闭函数也可以返回局部函数，以便程序在其他作用域中使用局部函数，此时返回的函数在调用方使用时就可以等同于普通函数一样使用；
+    - 在局部函数中如果需要访问封闭函数的变量，需要使用nonlocal进行声明,nonlocal 和前面介绍的 global 功能大致相似，区别只是 global 用于声明访问全局变量，而 nonlocal 用于声明访问当前函数所在函数内的局部变量。
+
+```py
+def get_math_func(type, nn) :
+    # 定义一个计算平方的局部函数
+    def square(n) :  # ①
+        return n * n
+    # 定义一个计算立方的局部函数
+    def cube(n) :  # ②
+        return n * n * n
+    # 定义一个计算阶乘的局部函数
+    def factorial(n) :   # ③
+        result = 1
+        for index in range(2, n + 1) :
+            result *= index
+        return result
+    # 调用局部函数
+    if type == "square" :
+        return square(nn)
+    elif type == "cube":
+        return cube(nn)
+    else:
+        return factorial(nn)
+print(get_math_func("square", 3)) # 输出9
+print(get_math_func("cube", 3)) # 输出27
+print(get_math_func("", 3)) # 输出6
+```
+
+```py
+def foo ():
+    # 局部变量name
+    name = 'Charlie'
+    def bar ():
+     nonlocal name
+        # 访问bar函数所在的foo函数的name局部变量
+        print(name) # Charlie
+        name = '孙悟空'
+    bar()
+foo()
+```
+
+### 5.4 函数的高级用法
+- 作为函数变量
+
+    Python 的函数也是一种值：所有函数都是 function 对象，这意味着可以把函数本身赋值给变量，就像把整数、浮点数、列表、元组赋值给变量一样。
+    
+```py
+# 定义一个计算乘方的函数
+def pow(base, exponent) :
+    result = 1
+    for i in range(1, exponent + 1) :
+        result *= base
+    return result
+# 将pow函数赋值给my_fun，则my_fun可当成pow使用
+my_fun = pow
+print(my_fun(3 , 4)) # 输出81
+# 定义一个计算面积的函数
+def area(width, height) :
+    return width * height
+# 将area函数赋值给my_fun，则my_fun可当成area使用
+my_fun = area
+print(my_fun(3, 4)) # 输出12
+```
+
+>通过对 my_fun 变量赋值不同的函数，可以让 my_fun 在不同的时间指向不同的函数，从而让程序更加灵活。由此可见，使用函数变量的好处是让程序更加灵活
+
+- 使用函数作为函数形参
+
+    有时候需要定义一个函数，该函数的大部分计算逻辑都能确定，但某些处理逻辑暂时无法确定，这意昧着某些程序代码需要动态改变，如果希望调用函数时能动态传入这些代码，那么就需要在函数中定义函数形参，这样即可在调用该函数时传入不同的函数作为参数，从而动态改变这段代码。
+
+```py
+# 定义函数类型的形参，其中fn是一个函数
+def map(data, fn) :   
+    result = []
+    # 遍历data列表中每个元素，并用fn函数对每个元素进行计算
+    # 然后将计算结果作为新数组的元素
+    for e in data :
+        result.append(fn(e))
+    return result
+# 定义一个计算平方的函数
+def square(n) :
+    return n * n
+# 定义一个计算立方的函数
+def cube(n) :
+    return n * n * n
+# 定义一个计算阶乘的函数
+def factorial(n) :
+    result = 1
+    for index in range(2, n + 1) :
+        result *= index
+    return result
+data = [3 , 4 , 9 , 5, 8]
+print("原数据: ", data)
+# 下面程序代码3次调用map()函数，每次调用时传入不同的函数
+print("计算数组元素的平方")
+print(map(data , square))
+print("计算数组元素的立方")
+print(map(data , cube))
+print("计算数组元素的阶乘")
+print(map(data , factorial))
+
+原数据:  [3, 4, 9, 5, 8]
+计算数组元素的平方
+[9, 16, 81, 25, 64]
+计算数组元素的立方
+[27, 64, 729, 125, 512]
+计算数组元素的阶乘
+[6, 24, 362880, 120, 40320]
+```
+
+- 使用函数作为返回值
+
+    Python 还支持使用函数作为其他函数的返回值。
+
+```py
+def get_math_func(type) :
+    # 定义一个计算平方的局部函数
+    def square(n) :  # ①
+        return n * n
+    # 定义一个计算立方的局部函数
+    def cube(n) :  # ②
+        return n * n * n
+    # 定义一个计算阶乘的局部函数
+    def factorial(n) :   # ③
+        result = 1
+        for index in range(2 , n + 1):
+            result *= index
+        return result
+    # 返回局部函数
+    if type == "square" :
+        return square
+    if type == "cube" :
+        return cube
+    else:
+        return factorial
+# 调用get_math_func()，程序返回一个嵌套函数
+math_func = get_math_func("cube") # 得到cube函数
+print(math_func(5)) # 输出125
+math_func = get_math_func("square") # 得到square函数
+print(math_func(5)) # 输出25
+math_func = get_math_func("other") # 得到factorial函数
+print(math_func(5)) # 输出120
+```
+
+
+
+
+
 
 
 
