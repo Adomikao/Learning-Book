@@ -684,6 +684,112 @@ math_func = get_math_func("other") # 得到factorial函数
 print(math_func(5)) # 输出120
 ```
 
+### 5.5 lambda表达式
+
+lambda表达式，通常是在需要一个函数，但是又不想费神去命名一个函数的场合下使用，也就是指匿名函数，lambda 表达式只能是单行表达式。
+
+lambda的一般形式是关键字lambda后面跟一个或多个参数，紧跟一个冒号，以后是一个表达式。lambda是一个表达式而不是一个语句。它能够出现在Python语法不允许def出现的地方。作为表达式，lambda返回一个值（即一个新的函数）。lambda用来编写简单的函数，而def用来处理更强大的任务
+
+**示例**
+```py
+f = lambda x, y, z :x+y+z
+
+　　　　print f(1,2,3) #6 
+```
+- 应用在函数式编程中
+
+    Python提供了很多函数式编程的特性，如：map、reduce、filter、sorted等这些函数都支持函数作为参数，lambda函数就可以应用在函数式编程中。如下：
+    
+```py
+# 需求：将列表中的元素按照绝对值大小进行升序排列
+list1 = [3,5,-4,-1,0,-2,-6]
+sorted(list1, key=lambda x: abs(x))
+# 当然，也可以如下：
+
+list1 = [3,5,-4,-1,0,-2,-6]
+def get_abs(x):
+    return abs(x)
+sorted(list1,key=get_abs)
+# 只不过这种方式的代码看起来不够Pythonic
+```
+- 应用在闭包中
+
+```py
+def get_y(a,b):
+     return lambda x:ax+b
+y1 = get_y(1,1)
+y1(1) # 结果为2
+# 当然，也可以用常规函数实现闭包，如下：
+
+def get_y(a,b):
+    def func(x):
+        return ax+b
+    return func
+y1 = get_y(1,1)
+y1(1) # 结果为2
+# 只不过这种方式显得有点啰嗦。
+```
+> Python之禅中有这么一句话：Explicit is better than implicit（明了胜于晦涩），就是说那种方式更清晰就用哪一种方式，不要盲目的都使用lambda表达式。
+
+## 6. 异常处理
+
+### 6.1 异常的类型
+- Python语法错误
+
+    语法错误，也就是解析代码时出现的错误。当代码不符合 Python 语法规则时，Python解释器在解析时就会报出 SyntaxError 语法错误，与此同时还会明确指出最早探测到错误的语句，语法错误多是开发者疏忽导致的，属于真正意义上的错误，是解释器无法容忍的。
+
+- Python运行时错误
+
+    运行时错误，即程序在语法上都是正确的，但在运行时发生了错误。例如：a = 1/0
+
+    上面这句代码的意思是“用 1 除以 0，并赋值给 a 。因为 0 作除数是没有意义的，所以运行后会产生如下错误：
+    ```py
+    >>> a = 1/0
+    Traceback (most recent call last):
+    File "<pyshell#2>", line 1, in <module>
+        a = 1/0
+    ZeroDivisionError: division by zero
+    ```
+
+    以上运行输出结果中，前两段指明了错误的位置，最后一句表示出错的类型。在 Python 中，把这种运行时产生错误的情况叫做异常（Exceptions）。
+
+### 6.2 异常处理机制
+#### 1> try except
+
+1. 语法结构
+
+```py
+try:
+    可能产生异常的代码块
+except [(Error1, Error2, ...) [as e]]:
+    处理异常的代码块1
+except [(Error3, Error4, ...) [as e]]:
+    处理异常的代码块2
+```
+该格式中，[] 括起来的部分可以使用，也可以省略；(Error1,Error2,...) 、(Error3,Error4,...) 表示各自的 except 块可以处理异常的具体类型；[as e] 表示将异常类型赋值给变量 e（方便在 except 块中调用异常类型）。
+
+> - 注意，except 后面也可以不指定具体的异常名称，这样的话，表示要捕获所有类型的异常。
+> - 通过在 try 块后提供多个 except 块可以无须在异常处理块中使用 if 判断异常类型，但依然可以针对不同的异常类型提供相应的处理逻辑，从而提供更细致、更有条理的异常处理逻辑。
+
+try except 语句的执行流程如下：
+
+- 首先执行 try 中的代码块，如果执行过程中出现异常，系统会自动生成一个异常对象，该异常对象会提交给 Python 解释器，此过程被称为引发异常。
+- 当 Python 解释器收到异常对象时，会寻找能处理该异常对象的 except 块，如果找到合适的 except 块，则把该异常对象交给该 except 块处理，这个过程被称为捕获异常。如果 Python 解释器找不到捕获异常的 except 块，则程序运行终止，Python 解释器也将退出。
+
+
+2. 访问异常信息
+
+如果程序需要在 except 块中访问异常对象的相关信息，可以通过为 except 块添加 as e 来实现。
+
+所有的异常对象都包含了如下几个常用属性和方法：
+- args：该属性返回异常的错误编号和描述字符串。
+- errno：该属性返回异常的错误编号。
+- strerror：该属性返回异常的描述宇符串。
+- with_traceback()：通过该方法可处理异常的传播轨迹信息。
+
+
+
+
 
 
 
