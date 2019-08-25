@@ -270,6 +270,15 @@ dd if=/dev/hda of=/dev/fd0 bs=512 count=1 做一个将 MBR (Master Boot Record)�
 dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复 MBR 内容 
 ```
 
+# 17.Mac下的命令
+1.查询运行文件所在路径
+
+```bash
+which mysql
+#例如查询 mysql 的安装路径
+/usr/local/bin/mysql
+```
+
 
 
 
