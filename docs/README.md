@@ -4,6 +4,7 @@
 
 - [Git](mark/Git.md) </br>
 - [正则表达式](mark/正则表达式.md) </br>
+- [精通nginx](mark/Nginx.md)</br>
 - [常见问题](mark/常见问题.md) </br>
 
 
