@@ -816,7 +816,23 @@ right_main()
 如果希望某段代码的异常能被后面的 except 块捕获，那么就应该将这段代码放在 try 块的代码之后；如果希望某段代码的异常能向外传播（不被 except 块捕获），那么就应该将这段代码放在 else 块中。
 
 #### 3> try except finally
-
+finally 语句是与 try 和 except 语句配合使用的，其通常是用来做资源回收和清理工作的。无论 try 中的语句是否跳入 except 中，最终都要进入 finally 语句，并执行其中的代码块。
+```py
+try:
+    #业务实现代码
+except SubException as e:
+    #异常处理块1
+    ...
+except SubException2 as e:
+    #异常处理块2
+    ...
+else:
+    #正常处理块
+finally :
+    #资源回收块
+    ...
+```
+> 尽量避免在 finally 块里使用 return 或 raise 等导致方法中止的语句，否则可能出现一些很奇怪的情况。
 
 
 
