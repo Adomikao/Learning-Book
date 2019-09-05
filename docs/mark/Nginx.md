@@ -235,5 +235,65 @@ location ~* \.(txt|doc)${
 }
 ```
 
+## 3. 静态文件服务
+最简单的本地静态文件服务配置示例：
+```
+server {
+        listen       80;
+        server_name www.test.com;
+        charset utf-8;
+        root   /data/www.test.com;
+        index  index.html index.htm;
+       }
+```
+就这些？恩，就这些！如果只是提供简单的对外静态文件，它真的就可以用了。可是他不完美，远远没有发挥 Nginx 的半成功力，为什么这么说呢，看看下面的配置吧，为了大家看着方便，我们把每一项的作用都做了注释。
 
+```
+http {
+    # 这个将为打开文件指定缓存，默认是没有启用的，max 指定缓存数量，
+    # 建议和打开文件数一致，inactive 是指经过多长时间文件没被请求后删除缓存。
+    open_file_cache max=204800 inactive=20s;
+
+    # open_file_cache 指令中的inactive 参数时间内文件的最少使用次数，
+    # 如果超过这个数字，文件描述符一直是在缓存中打开的，如上例，如果有一个
+    # 文件在inactive 时间内一次没被使用，它将被移除。
+    open_file_cache_min_uses 1;
+
+    # 这个是指多长时间检查一次缓存的有效信息
+    open_file_cache_valid 30s;
+
+    # 默认情况下，Nginx的gzip压缩是关闭的， gzip压缩功能就是可以让你节省不
+    # 少带宽，但是会增加服务器CPU的开销哦，Nginx默认只对text/html进行压缩 ，
+    # 如果要对html之外的内容进行压缩传输，我们需要手动来设置。
+    gzip on;
+    gzip_min_length 1k;
+    gzip_buffers 4 16k;
+    gzip_http_version 1.0;
+    gzip_comp_level 2;
+    gzip_types text/plain application/x-javascript text/css application/xml;
+
+    server {
+            listen       80;
+            server_name www.test.com;
+            charset utf-8;
+            root   /data/www.test.com;
+            index  index.html index.htm;
+           }
+}
+```
+
+## 4. 日志
+Nginx 日志主要有两种：access_log(访问日志) 和 error_log(错误日志)。
+
+### 4.1 access_log 访问日志
+access_log 主要记录客户端访问 Nginx 的每一个请求，格式可以自定义。通过 access_log 你可以得到用户地域来源、跳转来源、使用终端、某个 URL 访问量等相关信息。<br>
+
+log_format 指令用于定义日志的格式，语法: log_format name string; 其中 name 表示格式名称，string 表示定义的格式字符串。log_format 有一个默认的无需设置的组合日志格式。<br>
+
+> 默认的无需设置的组合日志格式
+```
+log_format combined '$remote_addr - $remote_user  [$time_local]  '
+                    ' "$request"  $status  $body_bytes_sent  '
+                    ' "$http_referer"  "$http_user_agent" ';
+```
 
