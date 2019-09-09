@@ -73,7 +73,7 @@ root 指令用于指定访问根目录时，虚拟主机的 web 目录，这个�
 这里的 html 文件夹实际上是一个替身（快捷方式），实际的默认文件位置是在
 默认文件路径 `/usr/local/var/www `
 
-## 2. location 匹配规则
+## 3. location 匹配规则
 ### 1> 语法规则
 
 `
@@ -235,7 +235,7 @@ location ~* \.(txt|doc)${
 }
 ```
 
-## 3. 静态文件服务
+## 4. 静态文件服务
 最简单的本地静态文件服务配置示例：
 ```
 server {
@@ -282,18 +282,210 @@ http {
 }
 ```
 
-## 4. 日志
+## 5. 日志
 Nginx 日志主要有两种：access_log(访问日志) 和 error_log(错误日志)。
 
-### 4.1 access_log 访问日志
+1>  access_log 访问日志<br>
+
 access_log 主要记录客户端访问 Nginx 的每一个请求，格式可以自定义。通过 access_log 你可以得到用户地域来源、跳转来源、使用终端、某个 URL 访问量等相关信息。<br>
 
 log_format 指令用于定义日志的格式，语法: log_format name string; 其中 name 表示格式名称，string 表示定义的格式字符串。log_format 有一个默认的无需设置的组合日志格式。<br>
 
 > 默认的无需设置的组合日志格式
+
 ```
 log_format combined '$remote_addr - $remote_user  [$time_local]  '
                     ' "$request"  $status  $body_bytes_sent  '
                     ' "$http_referer"  "$http_user_agent" ';
 ```
+access_log 指令用来指定访问日志文件的存放路径（包含日志文件名）、格式和缓存大小，语法：access_log path [format_name [buffer=size | off]]; 其中 path 表示访问日志存放路径，format_name 表示访问日志格式名称，buffer 表示缓存大小，off 表示关闭访问日志。
+
+> log_format 使用示例：在 access.log 中记录客户端 IP 地址、请求状态和请求时间
+
+```
+log_format myformat '$remote_addr  $status  $time_local';
+access_log logs/access.log  myformat;
+```
+需要注意的是：log_format 配置必须放在 http 内，否则会出现警告。Nginx 进程设置的用户和组必须对日志路径有创建文件的权限，否则，会报错。<br>
+
+2> error_log 错误日志<br>
+
+error_log 主要记录客户端访问 Nginx 出错时的日志，格式不支持自定义。通过查看错误日志，你可以得到系统某个服务或 server 的性能瓶颈等。因此，将日志利用好，你可以得到很多有价值的信息。
+
+error_log 指令用来指定错误日志，语法: error_log path [level]; 其中 path 表示错误日志存放路径，level 表示错误日志等级，日志等级包括 debug、info、notice、warn、error、crit、alert、emerg，从左至右，日志详细程度逐级递减，即 debug 最详细，emerg 最少，默认为 error。
+
+注意：error_log off 并不能关闭错误日志记录，此时日志信息会被写入到文件名为 off 的文件当中。如果要关闭错误日志记录，可以使用如下配置：
+
+> Linux 系统把存储位置设置为空设备
+
+```
+error_log /dev/null;
+
+http {
+    # ...
+}
+```
+
+> Windows 系统把存储位置设置为空设备
+
+```
+error_log nul;
+
+http {
+    # ...
+}
+```
+
+## 6. Nginx 陷阱和常见错误
+
+> 原文： https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+
+不管是新手还是老用户，都可能会掉到一个陷阱中去。下面我们会列出一些我们经常看到，和 经常需要解释如何解决的问题。在 Freenode 的 Nginx IRC 频道中，我们频繁的看到这些问题出现。<br>
+
+**本指南说**
+
+最经常看到的是，有人从一些其他的指南中，尝试拷贝、粘贴一个配置片段。并不是说其他所有的指南都是错的，但是里面错误的比例很可怕。即使是在 Linode 库中也有质量较差的信息，一些 Nginx 社区成员曾经徒劳的试图去纠正。 <br>
+
+本指南的文档，是社区成员所创建和审查，他们直接和所有类型的 Nginx 用户在一起工作。 这个特定的文档之所以存在，是因为社区成员看到有大量普遍和重复出现的问题。<br>
+
+**我的问题没有被列出来**
+
+在这里你没有看到和你具体问题相关的东西。也许我们并没有解决你经历的具体问题。 不要只是大概浏览下这个网页，也不要假设你是无意才找到这里的。你找到这里，是因为这里列出了你做错的一些东西。<br>
+
+在许多问题上，当涉及到支持很多用户，社区成员不希望去支持破碎的配置。所以在提问求助前，先修复你的配置。 通读这个文档来修复你的配置，不要只是走马观花。
+
+### 1. chmod 777
+
+永远不要 使用 777，这可能是一个漂亮的数字，有时候可以懒惰的解决权限问题， 但是它同样也表示你没有线索去解决权限问题，你只是在碰运气。 你应该检查整个路径的权限，并思考发生了什么事情。
+
+要轻松的显示一个路径的所有权限，你可以使用：
+
+```
+ namei -om /path/to/check
+```
+
+糟糕的配置：
+
+```
+server {
+    server_name www.example.com;
+    location / {
+        root /var/www/Nginx -default/;
+        # [...]
+      }
+    location /foo {
+        root /var/www/Nginx -default/;
+        # [...]
+    }
+    location /bar {
+        root /var/www/Nginx -default/;
+        # [...]
+    }
+}
+```
+
+这个是能工作的。把 root 放在 location 区块里面会工作，但并不是完全有效的。 错就错在只要你开始增加其他的 location 区块，就需要给每一个 location 区块增加一个 root。 如果没有添加，就会没有 root。让我们看下正确的配置。<br>
+
+推荐的配置：
+
+```
+server {
+    server_name www.example.com;
+    root /var/www/Nginx -default/;
+    location / {
+        # [...]
+    }
+    location /foo {
+        # [...]
+    }
+    location /bar {
+        # [...]
+    }
+}
+```
+
+### 2.重复的 index 指令
+
+糟糕的配置：
+
+```
+http {
+    index index.php index.htm index.html;
+    server {
+        server_name www.example.com;
+        location / {
+            index index.php index.htm index.html;
+            # [...]
+        }
+    }
+    server {
+        server_name example.com;
+        location / {
+            index index.php index.htm index.html;
+            # [...]
+        }
+        location /foo {
+            index index.php;
+            # [...]
+        }
+    }
+}
+```
+
+为什么重复了这么多行不需要的配置呢？简单的使用“ index ”指令一次就够了。只需要把它放到 http {} 区块里面，下面的就会继承这个配置。<br>
+
+推荐的配置：
+
+```
+http {
+    index index.php index.htm index.html;
+    server {
+        server_name www.example.com;
+        location / {
+            # [...]
+        }
+    }
+    server {
+        server_name example.com;
+        location / {
+            # [...]
+        }
+        location /foo {
+            # [...]
+        }
+    }
+}
+```
+
+### 3.使用 if
+
+这里篇幅有限，只介绍一部分使用 if 指令的陷阱。更多陷阱你应该点击看看邪恶的 if 指令。 我们看下 if 指令的几个邪恶的用法。
+
+> 注意看这里：[邪恶的 if 指令](https://xwsoul.com/posts/761)
+
+**用 if 判断 Server Name**
+
+糟糕的配置：
+
+```
+server {
+    server_name example.com *.example.com;
+        if ($host ~* ^www\.(.+)) {
+            set $raw_domain $1;
+            rewrite ^/(.*)$ $raw_domain/$1 permanent;
+        }
+        # [...]
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
 
