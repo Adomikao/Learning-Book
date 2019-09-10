@@ -478,11 +478,52 @@ server {
     }
 }
 ```
+这个配置有三个问题。首先是 if 的使用, 为啥它这么糟糕呢? 你有阅读邪恶的 if 指令吗? 当 Nginx 收到无论来自哪个子域名的何种请求, 不管域名是 www.example.com 还是 example.com，这个 if 指令 总是 会被执行。 因此 Nginx 会检查 每个请求 的 Host header，这是十分低效的。 你应该避免这种情况，而是使用下面配置里面的两个 server 指令。<br>
 
+推荐的配置：
 
+```
+ server {
+    server_name www.example.com;
+    return 301 $scheme://example.com$request_uri;
+}
+server {
+    server_name example.com;
+    # [...]
+}
+```
 
+除了增强了配置的可读性，这种方法还降低了 Nginx 的处理要求；我们摆脱了不必要的 if 指令； 我们用了 $scheme 来表示 URI 中是 http 还是 https 协议，避免了硬编码。
 
+**用 if 检查文件是否存在**
 
+使用 if 指令来判断文件是否存在是很可怕的，如果你在使用新版本的 Nginx， 你应该看看 try_files，这会让你的生活变得更轻松。
+
+糟糕的配置：
+```
+server {
+    root /var/www/example.com;
+    location / {
+        if (!-f $request_filename) {
+            break;
+        }
+    }
+}
+```
+
+推荐的配置：
+```
+server {
+    root /var/www/example.com;
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+我们不再尝试使用 if 来判断 $uri 是否存在，用 try_files 意味着你可以测试一个序列。 如果 $uri 不存在，就会尝试 $uri/，还不存在的话，在尝试一个回调 location。<br>
+
+在上面配置的例子里面，如果 $uri 这个文件存在，就正常服务； 如果不存在就检测 $uri/ 这个目录是否存在；如果不存在就按照 index.html 来处理，你需要保证 index.html 是存在的。 try_files 的加载是如此简单。这是另外一个你可以完全的消除 if 指令的实例。
 
 
 
