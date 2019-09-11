@@ -35,7 +35,7 @@
 
 
 
-## :tomato: Node.js
+## :tomato: 面向对象
 
 - [设计模式](docs/mark/设计模式.md) </br>
 - [面向对象思想](docs/mark/面向对象思想.md)
