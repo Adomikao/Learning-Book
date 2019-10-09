@@ -925,12 +925,3 @@ while True:
     print(ch, end='')
 f.close()  #运行结果： 我和我的祖国
 ```
-
-
-
-
-
-
-
-
-
