@@ -94,7 +94,7 @@ redis> STRLEN nonexisting
 
 如果 `key` 不存在， `APPEND` 就简单地将键 `key` 的值设为 `value` ， 就像执行 `SET key value` 一样。
 
-返回值:
+返回值：:
 
 追加 `value` 之后， 键 `key` 的值的长度。
 
@@ -123,7 +123,7 @@ redis> GET myphone
 > ! NOTE <br>
 `INCR` 命令是一个针对字符串的操作。 因为 `Redis` 并没有专用的整数类型， 所以键 `key` 储存的值在执行 `INCR` 命令时会被解释为十进制 `64` 位有符号整数。
 
-返回值
+返回值：
 
 `INCR` 命令会返回键 `key` 在执行加一操作之后的值。
 
@@ -146,7 +146,7 @@ redis> GET page_view    # 数字值在 Redis 中以字符串的形式保存
 
 如果键 `key` 储存的值不能被解释为数字， 那么 `INCRBY` 命令将返回一个错误。
 
-返回值
+返回值：
 
 在加上增量 `increment` 之后， 键 `key` 当前的值。
 
@@ -214,7 +214,7 @@ redis> GET decimal
 
 关于递增(increment) / 递减(decrement)操作的更多信息， 请参见 INCR 命令的文档。
 
-返回值
+返回值：
 
 `DECR` 命令会返回键 `key` 在执行减一操作之后的值。
 
@@ -242,7 +242,7 @@ redis> DECR count
 
 本操作的值限制在 `64` 位(bit)有符号数字表示之内。
 
-返回值
+返回值：
 
 `DECRBY` 命令会返回键在执行减法操作之后的值。
 
@@ -268,7 +268,7 @@ redis> DECRBY pages 10
 
 `MSET` 是一个原子性(atomic)操作， 所有给定键都会在同一时间内被设置， 不会出现某些键被设置了但是另一些键没有被设置的情况。
 
-返回值
+返回值：
 
 `MSET` 命令总是返回 `OK` 。
 
@@ -292,7 +292,7 @@ redis> MGET date time weather
 
 如果域 `field` 已经存在于哈希表中， 那么它的旧值将被新值 `value` 覆盖。
 
-返回值
+返回值：
 
 当 `HSET` 命令在哈希表中新创建 `field` 域并成功为它设置值时， 命令返回 `1` ； 如果域 `field` 已经存在于哈希表， 并且 `HSET` 命令成功使用新值覆盖了它的旧值， 那么命令返回 `0` 。
 
@@ -319,7 +319,7 @@ redis> HGET website google
 如果哈希表 `hash` 不存在， 那么一个新的哈希表将被创建并执行 `HSETNX` 命令。
 
 
-返回值
+返回值：
 
 `HSETNX` 命令在设置成功时返回 `1` ， 在给定域已经存在而放弃执行设置操作时返回 `0` 。
 
