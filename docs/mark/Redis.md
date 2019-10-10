@@ -87,3 +87,54 @@ redis> STRLEN mykey
 redis> STRLEN nonexisting
 (integer) 0
 ```
+
+**APPEND key value**
+
+如果键 `key` 已经存在并且它的值是一个字符串， `APPEND` 命令将把 `value` 追加到键 `key` 现有值的末尾。
+
+如果 `key` 不存在， `APPEND` 就简单地将键 `key` 的值设为 `value` ， 就像执行 `SET key value` 一样。
+
+返回值:
+
+追加 `value` 之后， 键 `key` 的值的长度。
+
+```
+redis> EXISTS myphone               # myphone 不存在
+(integer) 0
+
+redis> APPEND myphone "nokia"       # 对不存在的 key 进行 APPEND ，等同于 SET myphone "nokia"
+(integer) 5                         # 字符长度
+
+redis> APPEND myphone " - 1110"     # 长度从 5 个字符增加到 12 个字符
+(integer) 12
+
+redis> GET myphone
+"nokia - 1110"
+```
+
+**INCR key**
+
+为键 `key` 储存的数字值加上一。
+
+如果键 `key` 不存在， 那么它的值会先被初始化为 `0` ， 然后再执行 `INCR` 命令。
+
+如果键 `key` 储存的值不能被解释为数字， 那么 `INCR` 命令将返回一个错误。
+
+> ! NOTE <br>
+`INCR` 命令是一个针对字符串的操作。 因为 `Redis` 并没有专用的整数类型， 所以键 `key` 储存的值在执行 `INCR` 命令时会被解释为十进制 `64` 位有符号整数。
+
+返回值
+
+`INCR` 命令会返回键 `key` 在执行加一操作之后的值。
+
+```
+redis> SET page_view 20
+OK
+
+redis> INCR page_view
+(integer) 21
+
+redis> GET page_view    # 数字值在 Redis 中以字符串的形式保存
+"21"
+```
+
