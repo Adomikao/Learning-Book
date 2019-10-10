@@ -259,3 +259,80 @@ redis> EXISTS pages
 redis> DECRBY pages 10
 (integer) -10
 ```
+
+**MSET key value [key value …]**
+
+同时为多个键设置值。
+
+如果某个给定键已经存在， 那么 `MSET` 将使用新值去覆盖旧值， 如果这不是你所希望的效果， 请考虑使用 `MSETNX` 命令， 这个命令只会在所有给定键都不存在的情况下进行设置。
+
+`MSET` 是一个原子性(atomic)操作， 所有给定键都会在同一时间内被设置， 不会出现某些键被设置了但是另一些键没有被设置的情况。
+
+返回值
+
+`MSET` 命令总是返回 `OK` 。
+
+```
+redis> MSET date "2012.3.30" time "11:00 a.m." weather "sunny"
+OK
+
+redis> MGET date time weather
+1) "2012.3.30"
+2) "11:00 a.m."
+3) "sunny"
+```
+
+# 二、哈希表
+
+**HSET hash field value**
+
+将哈希表 `hash` 中域 `field` 的值设置为 `value` 。
+
+如果给定的哈希表并不存在， 那么一个新的哈希表将被创建并执行 `HSET` 操作。
+
+如果域 `field` 已经存在于哈希表中， 那么它的旧值将被新值 `value` 覆盖。
+
+返回值
+
+当 `HSET` 命令在哈希表中新创建 `field` 域并成功为它设置值时， 命令返回 `1` ； 如果域 `field` 已经存在于哈希表， 并且 `HSET` 命令成功使用新值覆盖了它的旧值， 那么命令返回 `0` 。
+
+```
+redis> HSET website google "www.g.cn"
+(integer) 1
+
+redis> HGET website google
+"www.g.cn"
+
+redis> HSET website google "www.google.com"
+(integer) 0
+
+redis> HGET website google
+"www.google.com"
+```
+
+**HSETNX hash field value**
+
+当且仅当域 `field` 尚未存在于哈希表的情况下， 将它的值设置为 `value` 。
+
+如果给定域已经存在于哈希表当中， 那么命令将放弃执行设置操作。
+
+如果哈希表 `hash` 不存在， 那么一个新的哈希表将被创建并执行 `HSETNX` 命令。
+
+
+返回值
+
+`HSETNX` 命令在设置成功时返回 `1` ， 在给定域已经存在而放弃执行设置操作时返回 `0` 。
+
+```
+redis> HSETNX database key-value-store Redis
+(integer) 1
+
+redis> HGET database key-value-store
+"Redis"
+
+redis> HSETNX database key-value-store Riak
+(integer) 0
+
+redis> HGET database key-value-store
+"Redis"
+```
