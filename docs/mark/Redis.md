@@ -202,3 +202,60 @@ redis> GET decimal
 "5.56"
 ```
 
+**DECR key**
+
+为键 `key` 储存的数字值减去一。
+
+如果键 `key` 不存在， 那么键 `key` 的值会先被初始化为 `0` ， 然后再执行 `DECR` 操作。
+
+如果键 `key` 储存的值不能被解释为数字， 那么 `DECR` 命令将返回一个错误。
+
+本操作的值限制在 `64` 位(bit)有符号数字表示之内。
+
+关于递增(increment) / 递减(decrement)操作的更多信息， 请参见 INCR 命令的文档。
+
+返回值
+
+`DECR` 命令会返回键 `key` 在执行减一操作之后的值。
+
+```
+redis> SET failure_times 10
+OK
+
+redis> DECR failure_times
+(integer) 9
+
+redis> EXISTS count
+(integer) 0
+
+redis> DECR count
+(integer) -1
+```
+
+**DECRBY key decrement**
+
+将键 `key` 储存的整数值减去减量 `decrement` 。
+
+如果键 `key` 不存在， 那么键 `key` 的值会先被初始化为 `0` ， 然后再执行 `DECRBY` 命令。
+
+如果键 `key` 储存的值不能被解释为数字， 那么 `DECRBY` 命令将返回一个错误。
+
+本操作的值限制在 `64` 位(bit)有符号数字表示之内。
+
+返回值
+
+`DECRBY` 命令会返回键在执行减法操作之后的值。
+
+```
+redis> SET count 100
+OK
+
+redis> DECRBY count 20
+(integer) 80
+
+redis> EXISTS pages
+(integer) 0
+
+redis> DECRBY pages 10
+(integer) -10
+```
