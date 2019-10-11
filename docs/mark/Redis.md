@@ -336,3 +336,93 @@ redis> HSETNX database key-value-store Riak
 redis> HGET database key-value-store
 "Redis"
 ```
+
+**HDEL key field [field …]**
+
+删除哈希表 `key` 中的一个或多个指定域，不存在的域将被忽略。
+
+返回值:
+
+被成功移除的域的数量，不包括被忽略的域。
+
+```
+# 测试数据
+
+redis> HGETALL abbr
+1) "a"
+2) "apple"
+3) "b"
+4) "banana"
+5) "c"
+6) "cat"
+7) "d"
+8) "dog"
+
+
+# 删除单个域
+
+redis> HDEL abbr a
+(integer) 1
+
+
+# 删除不存在的域
+
+redis> HDEL abbr not-exists-field
+(integer) 0
+
+
+# 删除多个域
+
+redis> HDEL abbr b c
+(integer) 2
+
+redis> HGETALL abbr
+1) "d"
+2) "dog"
+```
+
+**HLEN key**
+
+返回哈希表 `key` 中域的数量。
+
+返回值：
+
+哈希表中域的数量。
+当 `key` 不存在时，返回 `0` 
+
+```
+redis> HSET db redis redis.com
+(integer) 1
+
+redis> HSET db mysql mysql.com
+(integer) 1
+
+redis> HLEN db
+(integer) 2
+
+redis> HSET db mongodb mongodb.org
+(integer) 1
+
+redis> HLEN db
+(integer) 3
+```
+
+**HSTRLEN key field**
+
+返回哈希表 `key` 中， 与给定域 `field` 相关联的值的字符串长度（string length）。
+
+如果给定的键或者域不存在， 那么命令返回 `0` 
+
+```
+redis> HMSET myhash f1 "HelloWorld" f2 "99" f3 "-256"
+OK
+
+redis> HSTRLEN myhash f1
+(integer) 10
+
+redis> HSTRLEN myhash f2
+(integer) 2
+
+redis> HSTRLEN myhash f3
+(integer) 4
+```
