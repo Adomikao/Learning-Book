@@ -426,3 +426,120 @@ redis> HSTRLEN myhash f2
 redis> HSTRLEN myhash f3
 (integer) 4
 ```
+
+**HINCRBY key field increment**
+
+为哈希表 key 中的域 field 的值加上增量 increment 。
+
+增量也可以为负数，相当于对给定域进行减法操作。
+
+如果 key 不存在，一个新的哈希表被创建并执行 HINCRBY 命令。
+
+如果域 field 不存在，那么在执行命令前，域的值被初始化为 0 。
+
+对一个储存字符串值的域 field 执行 HINCRBY 命令将造成一个错误。
+
+本操作的值被限制在 64 位(bit)有符号数字表示之内。
+
+返回值：
+
+执行 HINCRBY 命令之后，哈希表 key 中域 field 的值。
+
+```
+# increment 为正数
+
+redis> HEXISTS counter page_view    # 对空域进行设置
+(integer) 0
+
+redis> HINCRBY counter page_view 200
+(integer) 200
+
+redis> HGET counter page_view
+"200"
+
+
+# increment 为负数
+
+redis> HGET counter page_view
+"200"
+
+redis> HINCRBY counter page_view -50
+(integer) 150
+
+redis> HGET counter page_view
+"150"
+
+
+# 尝试对字符串值的域执行HINCRBY命令
+
+redis> HSET myhash string hello,world       # 设定一个字符串值
+(integer) 1
+
+redis> HGET myhash string
+"hello,world"
+
+redis> HINCRBY myhash string 1              # 命令执行失败，错误。
+(error) ERR hash value is not an integer
+
+redis> HGET myhash string                   # 原值不变
+"hello,world"
+```
+
+**HINCRBYFLOAT key field increment**
+
+为哈希表 `key` 中的域 `field` 加上浮点数增量 `increment` 。
+
+如果哈希表中没有域 `field` ，那么 `HINCRBYFLOAT` 会先将域 `field` 的值设为 `0` ，然后再执行加法操作。
+
+如果键 `key` 不存在，那么 `HINCRBYFLOAT` 会先创建一个哈希表，再创建域 `field` ，最后再执行加法操作。
+
+当以下任意一个条件发生时，返回一个错误：
+
+- 域 `field` 的值不是字符串类型(因为 `redis` 中的数字和浮点数都以字符串的形式保存，所以它们都属于字符串类型）
+- 域 `field` 当前的值或给定的增量 `increment` 不能解释(parse)为双精度浮点数(double precision floating point number)
+
+返回值：
+
+执行加法操作之后 field 域的值。
+
+```
+# 值和增量都是普通小数
+
+redis> HSET mykey field 10.50
+(integer) 1
+redis> HINCRBYFLOAT mykey field 0.1
+"10.6"
+
+
+# 值和增量都是指数符号
+
+redis> HSET mykey field 5.0e3
+(integer) 0
+redis> HINCRBYFLOAT mykey field 2.0e2
+"5200"
+
+
+# 对不存在的键执行 HINCRBYFLOAT
+
+redis> EXISTS price
+(integer) 0
+redis> HINCRBYFLOAT price milk 3.5
+"3.5"
+redis> HGETALL price
+1) "milk"
+2) "3.5"
+
+
+# 对不存在的域进行 HINCRBYFLOAT
+
+redis> HGETALL price
+1) "milk"
+2) "3.5"
+redis> HINCRBYFLOAT price coffee 4.5   # 新增 coffee 域
+"4.5"
+redis> HGETALL price
+1) "milk"
+2) "3.5"
+3) "coffee"
+4) "4.5"
+```
