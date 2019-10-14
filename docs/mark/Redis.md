@@ -601,3 +601,80 @@ redis> EXISTS not_exists
 redis> HVALS not_exists
 (empty list or set)
 ```
+
+# 三、列表
+
+**LPUSH key value [value …]**
+
+将一个或多个值 `value` 插入到列表 `key` 的表头
+
+如果有多个 `value` 值，那么各个 `value` 值按从左到右的顺序依次插入到表头： 比如说，对空列表 `mylist` 执行命令 `LPUSH mylist a b c` ，列表的值将是 `c b a` ，这等同于原子性地执行 `LPUSH mylist a` 、 `LPUSH mylist b` 和 `LPUSH mylist c` 三个命令。
+
+如果 `key` 不存在，一个空列表会被创建并执行 `LPUSH` 操作。
+
+当 `key` 存在但不是列表类型时，返回一个错误。
+
+返回值
+
+执行 `LPUSH` 命令后，列表的长度。
+
+```
+# 加入单个元素
+
+redis> LPUSH languages python
+(integer) 1
+
+
+# 加入重复元素
+
+redis> LPUSH languages python
+(integer) 2
+
+redis> LRANGE languages 0 -1     # 列表允许重复元素
+1) "python"
+2) "python"
+
+
+# 加入多个元素
+
+redis> LPUSH mylist a b c
+(integer) 3
+
+redis> LRANGE mylist 0 -1
+1) "c"
+2) "b"
+3) "a"
+```
+
+**LPUSHX key value**
+
+将值 `value` 插入到列表 `key` 的表头，当且仅当 `key` 存在并且是一个列表。
+
+和 `LPUSH key value [value …]` 命令相反，当 `key` 不存在时， `LPUSHX` 命令什么也不做。
+
+返回值:
+
+`LPUSHX` 命令执行之后，表的长度。
+
+```
+# 对空列表执行 LPUSHX
+
+redis> LLEN greet                       # greet 是一个空列表
+(integer) 0
+
+redis> LPUSHX greet "hello"             # 尝试 LPUSHX，失败，因为列表为空
+(integer) 0
+
+
+# 对非空列表执行 LPUSHX
+
+redis> LPUSH greet "hello"              # 先用 LPUSH 创建一个有一个元素的列表
+(integer) 1
+
+redis> LPUSHX greet "good morning"      # 这次 LPUSHX 执行成功
+(integer) 2
+
+redis> LRANGE greet 0 -1
+1) "good morning"
+2) "hello"
+```
