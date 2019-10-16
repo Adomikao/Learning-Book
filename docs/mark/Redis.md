@@ -1,6 +1,6 @@
 # 一、字符串
 
-**SET key value [EX seconds] [PX milliseconds] [NX|XX]**
+## SET key value [EX seconds] [PX milliseconds] [NX|XX]
 
 将字符串值 value 关联到 key 。
 如果 key 已经持有其他值， SET 就覆写旧值， 无视类型。
@@ -51,7 +51,7 @@ redis> GEt not-exists-key
 ```
 
 
-**GETSET key value**
+## GETSET key value
 
 将键 key 的值设为 value ， 并返回键 key 在被设置之前的旧值。
 
@@ -69,7 +69,7 @@ redis> GET db
 "redis"
 ```
 
-**STRLEN key**
+## STRLEN key
 
 STRLEN 命令返回字符串值的长度。
 
@@ -88,7 +88,7 @@ redis> STRLEN nonexisting
 (integer) 0
 ```
 
-**APPEND key value**
+## APPEND key value
 
 如果键 `key` 已经存在并且它的值是一个字符串， `APPEND` 命令将把 `value` 追加到键 `key` 现有值的末尾。
 
@@ -112,7 +112,7 @@ redis> GET myphone
 "nokia - 1110"
 ```
 
-**INCR key**
+## INCR key
 
 为键 `key` 储存的数字值加上一。
 
@@ -138,7 +138,7 @@ redis> GET page_view    # 数字值在 Redis 中以字符串的形式保存
 "21"
 ```
 
-**INCRBY key increment**
+## INCRBY key increment
 
 为键 `key` 储存的数字值加上增量 `increment` 。
 
@@ -183,7 +183,7 @@ redis> INCRBY book 200
 (error) ERR value is not an integer or out of range
 ```
 
-**INCRBYFLOAT key increment**
+## INCRBYFLOAT key increment
 
 为键 `key` 储存的值加上浮点数增量 `increment` 。
 
@@ -202,7 +202,7 @@ redis> GET decimal
 "5.56"
 ```
 
-**DECR key**
+## DECR key
 
 为键 `key` 储存的数字值减去一。
 
@@ -232,7 +232,7 @@ redis> DECR count
 (integer) -1
 ```
 
-**DECRBY key decrement**
+## DECRBY key decrement
 
 将键 `key` 储存的整数值减去减量 `decrement` 。
 
@@ -260,7 +260,7 @@ redis> DECRBY pages 10
 (integer) -10
 ```
 
-**MSET key value [key value …]**
+## MSET key value [key value …]
 
 同时为多个键设置值。
 
@@ -284,7 +284,7 @@ redis> MGET date time weather
 
 # 二、哈希表
 
-**HSET hash field value**
+## HSET hash field value
 
 将哈希表 `hash` 中域 `field` 的值设置为 `value` 。
 
@@ -310,7 +310,7 @@ redis> HGET website google
 "www.google.com"
 ```
 
-**HSETNX hash field value**
+## HSETNX hash field value
 
 当且仅当域 `field` 尚未存在于哈希表的情况下， 将它的值设置为 `value` 。
 
@@ -337,7 +337,7 @@ redis> HGET database key-value-store
 "Redis"
 ```
 
-**HDEL key field [field …]**
+## HDEL key field [field …]
 
 删除哈希表 `key` 中的一个或多个指定域，不存在的域将被忽略。
 
@@ -381,7 +381,7 @@ redis> HGETALL abbr
 2) "dog"
 ```
 
-**HLEN key**
+## HLEN key
 
 返回哈希表 `key` 中域的数量。
 
@@ -407,7 +407,7 @@ redis> HLEN db
 (integer) 3
 ```
 
-**HSTRLEN key field**
+## HSTRLEN key field
 
 返回哈希表 `key` 中， 与给定域 `field` 相关联的值的字符串长度（string length）。
 
@@ -427,7 +427,7 @@ redis> HSTRLEN myhash f3
 (integer) 4
 ```
 
-**HINCRBY key field increment**
+## HINCRBY key field increment
 
 为哈希表 key 中的域 field 的值加上增量 increment 。
 
@@ -485,7 +485,7 @@ redis> HGET myhash string                   # 原值不变
 "hello,world"
 ```
 
-**HINCRBYFLOAT key field increment**
+## HINCRBYFLOAT key field increment
 
 为哈希表 `key` 中的域 `field` 加上浮点数增量 `increment` 。
 
@@ -544,7 +544,7 @@ redis> HGETALL price
 4) "4.5"
 ```
 
-**HKEYS key**
+## HKEYS key
 
 返回哈希表 `key` 中的所有域。
 
@@ -573,7 +573,7 @@ redis> HKEYS fake_key
 (empty list or set)
 ```
 
-**HVALS key**
+## HVALS key
 
 返回哈希表 `key` 中所有域的值。
 
@@ -604,7 +604,7 @@ redis> HVALS not_exists
 
 # 三、列表
 
-**LPUSH key value [value …]**
+## LPUSH key value [value …]
 
 将一个或多个值 `value` 插入到列表 `key` 的表头
 
@@ -646,7 +646,7 @@ redis> LRANGE mylist 0 -1
 3) "a"
 ```
 
-**LPUSHX key value**
+## LPUSHX key value
 
 将值 `value` 插入到列表 `key` 的表头，当且仅当 `key` 存在并且是一个列表。
 
@@ -679,7 +679,7 @@ redis> LRANGE greet 0 -1
 2) "hello"
 ```
 
-**RPUSH key value [value …]**
+## RPUSH key value [value …]
 
 将一个或多个值 `value` 插入到列表 `key` 的表尾(最右边)。
 
@@ -721,7 +721,7 @@ redis> LRANGE mylist 0 -1
 3) "c"
 ```
 
-**LPOP key**
+## LPOP key
 
 返回值:
 
@@ -741,7 +741,7 @@ redis> LPOP course  # 移除头元素
 "algorithm001"
 ```
 
-**RPOP key**
+## RPOP key
 
 移除并返回列表 `key` 的尾元素。
 
@@ -767,7 +767,7 @@ redis> LRANGE mylist 0 -1    # 列表剩下的元素
 2) "two"
 ```
 
-**LREM key count value**
+## LREM key count value
 
 根据参数 `count` 的值，移除列表中与参数 `value` 相等的元素。
 
