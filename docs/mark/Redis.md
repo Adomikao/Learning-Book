@@ -830,3 +830,183 @@ redis> LREM greet 0 hello      # 移除表中所有 hello
 redis> LLEN greet
 (integer) 0
 ```
+
+
+## LLEN key
+
+返回列表 `key` 的长度。
+
+如果 `key` 不存在，则 `key` 被解释为一个空列表，返回 `0` .
+
+如果 `key` 不是列表类型，返回一个错误。
+
+```
+# 空列表
+
+redis> LLEN job
+(integer) 0
+
+
+# 非空列表
+
+redis> LPUSH job "cook food"
+(integer) 1
+
+redis> LPUSH job "have lunch"
+(integer) 2
+
+redis> LLEN job
+(integer) 2
+```
+
+## LINDEX key index
+
+返回列表 `key` 中，下标为 `index` 的元素。
+
+下标(index)参数 `start` 和 `stop` 都以 `0` 为底，也就是说，以 `0` 表示列表的第一个元素，以 `1` 表示列表的第二个元素，以此类推。
+
+你也可以使用负数下标，以 -`1` 表示列表的最后一个元素， `-2` 表示列表的倒数第二个元素，以此类推。
+
+如果 `key` 不是列表类型，返回一个错误。
+
+返回值:
+
+列表中下标为 `index` 的元素。 如果 `index` 参数的值不在列表的区间范围内(out of range)，返回 `nil` 。
+
+```
+redis> LPUSH mylist "World"
+(integer) 1
+
+redis> LPUSH mylist "Hello"
+(integer) 2
+
+redis> LINDEX mylist 0
+"Hello"
+
+redis> LINDEX mylist -1
+"World"
+
+redis> LINDEX mylist 3        # index不在 mylist 的区间范围内
+(nil)
+```
+
+
+## LINSERT key BEFORE|AFTER pivot value
+
+将值 `value` 插入到列表 `key` 当中，位于值 `pivot` 之前或之后。
+
+当 `pivot` 不存在于列表 `key` 时，不执行任何操作。
+
+当 `key` 不存在时， `key` 被视为空列表，不执行任何操作。
+
+如果 `key` 不是列表类型，返回一个错误
+
+返回值
+
+如果命令执行成功，返回插入操作完成之后，列表的长度。 如果没有找到 `pivot` ，返回 `-1` 。 如果 `key` 不存在或为空列表，返回 `0` 。
+
+```
+redis> RPUSH mylist "Hello"
+(integer) 1
+
+redis> RPUSH mylist "World"
+(integer) 2
+
+redis> LINSERT mylist BEFORE "World" "There"
+(integer) 3
+
+redis> LRANGE mylist 0 -1
+1) "Hello"
+2) "There"
+3) "World"
+
+
+# 对一个非空列表插入，查找一个不存在的 pivot
+
+redis> LINSERT mylist BEFORE "go" "let's"
+(integer) -1                                    # 失败
+
+
+# 对一个空列表执行 LINSERT 命令
+
+redis> EXISTS fake_list
+(integer) 0
+
+redis> LINSERT fake_list BEFORE "nono" "gogogog"
+(integer) 0                             
+```
+
+## LSET key index value
+
+将列表 `key` 下标为 `index` 的元素的值设置为 `value` 。
+
+当 `index` 参数超出范围，或对一个空列表( `key` 不存在)进行 `LSET` 时，返回一个错误。
+
+```
+# 对空列表(key 不存在)进行 LSET
+
+redis> EXISTS list
+(integer) 0
+
+redis> LSET list 0 item
+(error) ERR no such key
+
+
+# 对非空列表进行 LSET
+
+redis> LPUSH job "cook food"
+(integer) 1
+
+redis> LRANGE job 0 0
+1) "cook food"
+
+redis> LSET job 0 "play game"
+OK
+
+redis> LRANGE job  0 0
+1) "play game"
+
+
+# index 超出范围
+
+redis> LLEN list                    # 列表长度为 1
+(integer) 1
+
+redis> LSET list 3 'out of range'
+(error) ERR index out of range
+```
+
+## LRANGE key start stop
+
+返回列表 `key` 中指定区间内的元素，区间以偏移量 `start` 和 `stop` 指定。
+
+下标(index)参数 `start` 和 `stop` 都以 `0` 为底，也就是说，以 `0` 表示列表的第一个元素，以 `1` 表示列表的第二个元素，以此类推。
+
+你也可以使用负数下标，以 `-1` 表示列表的最后一个元素， `-2` 表示列表的倒数第二个元素，以此类推。
+
+**注意LRANGE命令和编程语言区间函数的区别**
+
+假如你有一个包含一百个元素的列表，对该列表执行 `LRANGE list 0 10` ，结果是一个包含11个元素的列表，这表明 `stop` 下标也在 `LRANGE` 命令的取值范围之内(闭区间)，这和某些语言的区间函数可能不一致，比如Ruby的 `Range.new` 、 `Array#slice` 和Python的 `range()` 函数。
+
+**超出范围的下标**
+
+超出范围的下标值不会引起错误。
+
+如果 `start` 下标比列表的最大下标 `end` ( `LLEN list` 减去 `1` )还要大，那么 `LRANGE` 返回一个空列表。
+
+如果 `stop` 下标比 `end` 下标还要大，Redis将 `stop` 的值设置为 `end` 。
+
+```
+redis> RPUSH fp-language lisp
+(integer) 1
+
+redis> LRANGE fp-language 0 0
+1) "lisp"
+
+redis> RPUSH fp-language scheme
+(integer) 2
+
+redis> LRANGE fp-language 0 1
+1) "lisp"
+2) "scheme"
+```
