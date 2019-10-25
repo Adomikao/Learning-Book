@@ -1096,3 +1096,44 @@ OK
 redis> LRANGE new-alpha 0 -1           # 同样被清空
 (empty list or set)
 ```
+
+# 四、集合
+
+## SADD key member [member …]
+
+将一个或多个 `member` 元素加入到集合 `key` 当中，已经存在于集合的 `member` 元素将被忽略。
+
+假如 `key` 不存在，则创建一个只包含 `member` 元素作成员的集合。
+
+当 `key` 不是集合类型时，返回一个错误。
+
+> ! NOTE<br>
+> 在 Redis 2.4 版本以前， `SADD` 只接受单个 `member` 值。
+
+**返回值**<br>
+
+被添加到集合中的新元素的数量，不包括被忽略的元素。
+
+```
+# 添加单个元素
+
+redis> SADD bbs "discuz.net"
+(integer) 1
+
+
+# 添加重复元素
+
+redis> SADD bbs "discuz.net"
+(integer) 0
+
+
+# 添加多个元素
+
+redis> SADD bbs "tianya.cn" "groups.google.com"
+(integer) 2
+
+redis> SMEMBERS bbs
+1) "discuz.net"
+2) "groups.google.com"
+3) "tianya.cn"
+```
