@@ -10,33 +10,25 @@
 
 ## 💻 操作系统
 
-- [计算机操作系统](mark/计算机操作系统.md) </br>
 - [Linux](mark/Linux.md)
 
 ## ☁️ 网络
 
-- [计算机网络](mark/计算机网络.md) </br>
 - [HTTP](mark/HTTP.md) </br>
-- [Socket](mark/Socket.md)
 
 
-## 💡 面向对象
-
-- [设计模式](mark/设计模式.md) </br>
-- [面向对象思想](mark/面向对象思想.md)
 
 ## 🛢️ 数据库
 
-- [数据库系统原理](mark/数据库系统原理.md) </br>
+
 - [SQL](mark/SQL.md) </br>
-- [MySQL](mark/MySQL.md) </br>
 - [Redis](mark/Redis.md)
 
 ## 🐘 PHP
 
-- [PHP 汇总](mark/PHP%20汇总.md) </br>
+- [PHP 汇总](mark/PHP%20面试.md) </br>
 - [框架](mark/框架.md) </br>
-- [图像处理](mark/图像处理.md) </br>
+
 
 ## 🎄 Node.js
 - [Node.js 基础](mark/Node.js%20基础.md) </br>
