@@ -4,8 +4,8 @@
 
 - [Git](mark/Git.md) </br>
 - [正则表达式](mark/正则表达式.md) </br>
-- [精通nginx](mark/Nginx.md)</br>
-- [常见问题](mark/常见问题.md) </br>
+- [nginx](mark/Nginx.md)</br>
+
 
 
 ## 💻 操作系统
@@ -26,8 +26,8 @@
 
 ## 🐘 PHP
 
-- [PHP 汇总](mark/PHP%20面试.md) </br>
-- [框架](mark/框架.md) </br>
+- [PHP 面试](mark/PHP%20面试.md) </br>
+- [CI框架](mark/CI框架.md) </br>
 
 
 ## 🎄 Node.js
@@ -41,6 +41,4 @@
 
 ##  ✍️ 算法
 
-- [剑指 Offer 题解](mark/剑指%20offer%20题解.md) </br>
-- [Leetcode 题解](mark/Leetcode%20题解) </br>
-- [算法](mark/算法.md)
+- [常用算法](mark/算法.md)
