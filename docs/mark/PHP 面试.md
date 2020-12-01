@@ -256,3 +256,69 @@ D：将PHP代码转换为语言片段(Tokens)、将表达式编译成Opocdes、�
 正确答案：C
 
 答案分析：正确答案为C，正确的顺序为：Scanning(Lexing)、Parsing、Compilation、Execution
+
+
+## 3.阿里php面试题（一）
+
+一、选择题（需要注意有单选有多选）
+
+1、以下HTTP状态码中哪个表示服务器拒绝访问（）
+A、302 B、304 C、403 D、404
+
+2、php core dump 导致nginx返回的http状态码（）
+A、404 B、500 C、502 D、504
+
+3、下面哪些函数可以用来读取文件（）
+A、file B、file_get_contents C、fgets D、popen
+
+4、下面哪些函数可以用来判断a字符串是否存在于b字符串（）
+A、strpos B、strstr C、substr D、preg_match
+
+5、下面那种类型攻击可能导致Cookie被发送到黑客手中（）
+A、xss B、sql inject C、csrf D、ssrf
+
+6、当nginx作为负载均衡服务器，与php web服务器分布式部署的时候，下面哪个能获取到客户端ip（）
+A、$_SERVER["REMOTE_ADDR"] B、$_SERVER["SERVER_ADDR"] C、$_SERVER["REMOTE_HOST"] D、$_SERVER["HTTP_X_FORWARDED_FOR"]
+
+7、下面哪些命令可以用来查看端口是否被占用（）
+A、ps B、du C、netstat D、lsof
+
+8、下面哪些函数可以用于获取字符串长度（）
+A、strlen B、mb_strlen C、iconv_strlen D、strlength
+
+9、下面哪些shell命令可以用于读取文件内容（）
+A、cat B、tail C、less D、sed
+
+10、你通常如何学习新技术（）
+A、阅读新技术相关博客/文章 B、观看新技术相关直播/视频 C、线上向新技术对应专家提问 D、线下参加新技术的沙龙/活动 E、向周边懂技术的同事/老师请教
+
+二、代码题
+
+1、你经常去那些技术社区？列举一个并说明其优点。
+
+2、现有学生表（t_student）和成绩表（t_score）
+  学生表有学生id（id），学生姓名（name），性别（sex）字段；
+  成绩表有成绩id（id），学生id（student_id），学科id（item_id）和成绩（score）字段。
+  请通过SQL查找出每个学生所有学科的平均分和最高分和最低分
+
+3、请用尽可能多的方式来判断一个ip是否属于192.168.1.1~192.168.1.100
+  （必须写代码，不要只写思路，方法越多越好，提醒，这题很考验逻辑思维能力，请认真作答）
+  （代码写在背面）
+
+4、有一个字符串 $a = "503,123,789,453,987,102,23,45,90"；请写一个函数，将其从小到大排序，以一个数组返回，不能使用php自带的函数。
+
+三、思考题
+
+1、有一个后台模块只有白名单里的用户才能访问，下面这段代码返回结果是什么？应该如何改进。
+function permissionCheck($uid)(
+    $uids = "162,157,186";
+    if(strpos($uid,$uids) === false){
+        return false;
+    }
+    return ture;
+)
+
+permissionCheck(162);
+2、在文章列表场景中，翻页到后面就非常慢，比如下面的sql，有什么优化的手段吗，不局限于sql优化。
+select id,title,content from article
+where is_del = 0 order by id desc limit 8000000,20;
