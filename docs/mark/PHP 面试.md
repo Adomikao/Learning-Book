@@ -23,6 +23,7 @@
 10．请设计一个数据结构可以实现无限级子菜单的树型菜单功能并提供菜单生成算法，用UML描述设计并写出相关PHP代码
 
 二、系统相关部分
+
 1．请简述Linux、FreeBSD、Soalaris、Mac OS、Windows几种系统下进程与线程的内核实现方式、管理机制的异同
 
 2．请简述Linux/BSD系统下进程间通讯的方式有哪些，并具体说明在PHP下如何实现
@@ -310,6 +311,7 @@ A、阅读新技术相关博客/文章 B、观看新技术相关直播/视频 C�
 三、思考题
 
 1、有一个后台模块只有白名单里的用户才能访问，下面这段代码返回结果是什么？应该如何改进。
+```
 function permissionCheck($uid)(
     $uids = "162,157,186";
     if(strpos($uid,$uids) === false){
@@ -317,9 +319,12 @@ function permissionCheck($uid)(
     }
     return ture;
 )
+```
 
 permissionCheck(162);
+
 2、在文章列表场景中，翻页到后面就非常慢，比如下面的sql，有什么优化的手段吗，不局限于sql优化。
+
 select id,title,content from article
 where is_del = 0 order by id desc limit 8000000,20;
 
@@ -327,6 +332,7 @@ where is_del = 0 order by id desc limit 8000000,20;
 ## 4.阿里php面试题（二）
 
 一、单选题（共27题，每题5分）
+
 1.Memcache与Redis的比较错误的是？
 
 A、Memcache过期后，不删除缓存，会导致下次取数据数据的问题，Redis有专门线程，清除缓存数据；
