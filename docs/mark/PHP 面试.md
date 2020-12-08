@@ -669,8 +669,8 @@ D、<CENTER><TABLE WIDTH=”50%”></TABLE></CENTER>
 
 答案解析：center标签HTML5不推荐使用了...这种没有语义的纯样式标签是不符合w3c规范的，MDN上也有相关说明。
 
-2.下列正则表达式不能匹配”www.innotechx.com”的是：
-下列正则表达式不能匹配”www.innotechx.com”的是：
+2.下列正则表达式不能匹配”www.adomikao.com”的是：
+下列正则表达式不能匹配”www.adomikao.com”的是：
 
 A、^w+.w+.w+$
 
