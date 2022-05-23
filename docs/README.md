@@ -8,7 +8,7 @@
 
 
 
-## 💻 操作系统
+## 💻 linux操作系统
 
 - [Linux](mark/Linux.md)
 
@@ -17,17 +17,9 @@
 - [HTTP](mark/HTTP.md) </br>
 
 
-
 ## 🛢️ 数据库
 
-
 - [SQL](mark/SQL.md) </br>
-- [Redis](mark/Redis.md)
-
-## 🐘 PHP
-
-- [PHP 面试](mark/PHP%20面试.md) </br>
-- [CI框架](mark/CI框架.md) </br>
 
 
 ## 🎄 Node.js
@@ -36,7 +28,6 @@
 
 ## 🐍 Python
 - [Python 基础](mark/Python%20基础.md) </br>
-
 
 
 ##  ✍️ 算法
