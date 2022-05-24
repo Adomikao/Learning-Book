@@ -1,4 +1,4 @@
-<img width="150px" src="https://adomikao.gitee.io/media/learning-book/LogoMakr_6ln8tC.png">
+<img width="150px" src="../_media/LogoMakr_6ln8tC.png">
 
 # LEARNING-BOOK
 
@@ -6,5 +6,5 @@
 
 <span id="busuanzi_container_site_pv">Site View : <span id="busuanzi_value_site_pv">
 
-[Get Started](README.md)
+[Get Started](app.md)
 
