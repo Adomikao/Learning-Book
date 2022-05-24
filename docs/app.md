@@ -22,9 +22,6 @@
 - [SQL](mark/SQL.md) </br>
 
 
-## 🎄 Node.js
-- [Node.js 基础](mark/Node.js%20基础.md) </br>
-
 
 ## 🐍 Python
 - [Python 基础](mark/Python%20基础.md) </br>
