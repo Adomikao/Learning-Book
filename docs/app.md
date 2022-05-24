@@ -3,8 +3,8 @@
 ## Tools
 
 - [Git](mark/Git.md) </br>
-- [正则表达式](mark/正则表达式.md) </br>
-- [nginx](mark/Nginx.md)</br>
+- [Regex](mark/正则表达式.md) </br>
+- [Nginx](mark/Nginx.md)</br>
 
 
 
@@ -16,7 +16,7 @@
 
 ## Database
 
-- [SQL](mark/SQL.md) </br>
+- [Sql](mark/SQL.md) </br>
 
 
 
